@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'gameplay/countdown'
+
+  get 'gameplay/wikigame'
+
   get 'main/welcome'
 
   get 'main/finished'

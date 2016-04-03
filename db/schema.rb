@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20160403220002) do
 
   create_table "topics", force: :cascade do |t|
     t.string   "name"
+    t.string   "hyperlink"
     t.integer  "start_count"
     t.integer  "end_count"
     t.datetime "created_at",  null: false
