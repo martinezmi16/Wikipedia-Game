@@ -39,6 +39,10 @@ class GameplayController < ApplicationController
     current_path = params[:current_path]
     @current_item = current_path.split("->").last
 
+    if @current_item == @end_obj then
+      redirect_to :controller => "main", :action => "finished", :win => "true"
+    end
+
     @topic1_name = @start_obj.name
     @topic2_name = @end_obj.name
 

@@ -6,10 +6,11 @@
 
 
 <script>
-  $(function () {
+  $(function initializeClock () {
     $('#initialCountdown').countdown({until: '+10s', onExpiry: startGame, format: 'S'});
 
   });
+
 
 
   function startGame() {
@@ -19,8 +20,17 @@
     //alert('We have lift off!');
     //alert('We have lift off!');
   }
+
+
+
 </script>
+
+
+
+
 <p id="initialCountdown"></p>
 
-<p align="center"><%= link_to image_tag("new-topics.JPG"),
-                              :controller => "gameplay", :action => "countdown" %> </p>
+<p align="center"><%= link_to image_tag("go-now.JPG"),
+                              :controller => "gameplay", :action => "wikigame", :topic1 => @topic1_url,
+                              :topic2 => @topic2_url, :first => "true", :start => @start_time, :end => @end_time.to_s,
+                              :current_path => @topic1_url %> </p>

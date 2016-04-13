@@ -2,19 +2,25 @@
 <script>
   $(function updateClock () {
     var remaining = <%= params[:end].to_i %> - <%= params[:start].to_i %>;
+    $('#gameplayCountdown').countdown( 'option', 'onExpiry', nullEnd);
     $('#gameplayCountdown').countdown( 'option', 'until', remaining);
-    $('#gameplayCountdown').countdown( 'option', 'onExpiry', null);
+
 
   });
 
   $(function initializeClock() {
-    $('#gameplayCountdown').countdown({until: <%= @time_left%> , onExpiry: startGame, format: 'MS'});
+    $('#gameplayCountdown').countdown({until: <%= @time_left%> , onExpiry: endGame, format: 'MS'});
 
   });
 
-  function startGame() {
+  function endGame() {
+    $(window.location.replace("/main/finished?win=false"))
+    //alert('Out of time!');
+  }
+
+  function nullEnd() {
     //$(window.location.replace("/gameplay/wikigame"))
-    alert('Out of time!');
+    //alert('Out of time!');
   }
 
  // window.onbeforeunload = function() { return "Your work will be lost."; };
@@ -36,20 +42,6 @@
       </script>
       <p id="gameplayCountdown"></p>
       <P>"gameplayUpdate"</P>
-      <p><%= @time_left %></p>
-      <p align="center"><%=
-
-        split_path = params[:current_path].split("->")
-        most_split = split_path[0...-2]
-        old_path = ""
-        most_split.each { |topic| old_path += topic + "->" }
-        old_path += split_path[-1]
-
-        link_to image_tag("Back.JPG"),
-                                    :controller => "gameplay", :action => "wikigame",
-                                    :start => Time.now.to_i, :end => params[:end],
-                                    :topic1 => params[:topic1], :topic2 => params[:topic2],
-                                    :first => params[:first], :current_path => old_path %> </p>
 
   <% end %>
 
