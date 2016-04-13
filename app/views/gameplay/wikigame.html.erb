@@ -1,2 +1,69 @@
-<h1>Gameplay#wikigame</h1>
-<p>Find me in app/views/gameplay/wikigame.html.erb</p>
+
+<script>
+  $(function updateClock () {
+    var remaining = <%= params[:end].to_i %> - <%= params[:start].to_i %>;
+    $('#gameplayCountdown').countdown( 'option', 'until', remaining);
+    $('#gameplayCountdown').countdown( 'option', 'onExpiry', null);
+
+  });
+
+  $(function initializeClock() {
+    $('#gameplayCountdown').countdown({until: <%= @time_left%> , onExpiry: startGame, format: 'MS'});
+
+  });
+
+  function startGame() {
+    //$(window.location.replace("/gameplay/wikigame"))
+    alert('Out of time!');
+  }
+
+ // window.onbeforeunload = function() { return "Your work will be lost."; };
+
+</script>
+
+<div style="float:left; width:20%;">
+
+  <h1><p align="center"><%= h @topic1_name %> ------> <%= h @topic2_name %></h1>
+  <% if params[:first] == "true" %>
+      <script>
+        initializeClock();
+      </script>
+      <P>"gameplayCountdown"</P>
+    <p id="gameplayCountdown"></p>
+  <%else%>
+      <script>
+        updateClock();
+      </script>
+      <p id="gameplayCountdown"></p>
+      <P>"gameplayUpdate"</P>
+      <p><%= @time_left %></p>
+      <p align="center"><%=
+
+        split_path = params[:current_path].split("->")
+        most_split = split_path[0...-2]
+        old_path = ""
+        most_split.each { |topic| old_path += topic + "->" }
+        old_path += split_path[-1]
+
+        link_to image_tag("Back.JPG"),
+                                    :controller => "gameplay", :action => "wikigame",
+                                    :start => Time.now.to_i, :end => params[:end],
+                                    :topic1 => params[:topic1], :topic2 => params[:topic2],
+                                    :first => params[:first], :current_path => old_path %> </p>
+
+  <% end %>
+
+  <p align="center"><%= params[:current_path]%></p>
+
+
+</div>
+<div style="float:left; width:80%;">
+
+  <!--
+  <object type="text/html" data="https://en.wikipedia.org/wiki/<%= @topic1_link%>" width="100%" height="900px" style="overflow:auto;border:5px ridge blue">
+  </object></div>
+  -->
+
+  <%== @page %>
+
+</div>

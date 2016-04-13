@@ -8,8 +8,3 @@
  # You can use CoffeeScript in this file: http://coffeescript.org/
  */
 
-jQuery(document).on("ready page:load", function() {
-    $(function () {
-        $('#until2d').countdown({until: '+2d'});
-    });
-});
