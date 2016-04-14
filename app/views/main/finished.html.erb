@@ -1,2 +1,17 @@
-<h1>Main#finished</h1>
-<p>Find me in app/views/main/finished.html.erb</p>
+<h1><p align="center"><%= @welcome_text %></h1></p>
+
+<% if params[:win] == "true" then %>
+    <h3><p align="center"> Base score :  <%= @base_score %> </h3></p>
+    <h3><p align="center"> Bonus      :  <%= @bonus %> </h3></p>
+    <h3><p align="center"> _____________________ </h3></p>
+    <h3><p align="center"> Total score:  <%= @final_score %> </h3></p>
+    <br>
+    <h3><p align="center"><%= params[:current_path] %></p></h3>
+<% end %>
+
+<br><br><br>
+<h4><p align="center"><%= params[:topic1] %> ------> <%= params[:topic2] %></p></h4>
+
+
+<p align="center"><%= link_to image_tag("try-again.JPG"),
+                              :controller => "gameplay", :action => "countdown" %> </p>
