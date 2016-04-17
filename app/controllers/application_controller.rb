@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+
+  #Function that gets topics for the start of the game
   def getTopics()
 
 
@@ -30,6 +32,17 @@ class ApplicationController < ActionController::Base
 
     return topic_list
 
+  end
+
+  def updatePaths ( current_paths, path )
+    #Updates path in database
+
+    if current_paths.include?(path) == false
+      Path.create( :path => path, :count => 1)
+    else
+      selected_path = Path.find_by_path(path)
+      selected_path.increment(:count, 1)
+    end
   end
 
 end

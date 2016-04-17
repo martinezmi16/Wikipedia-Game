@@ -1,29 +1,29 @@
 
 <script>
+  //Updates the timer
   $(function updateClock () {
     var remaining = <%= params[:end].to_i %> - <%= params[:start].to_i %>;
     $('#gameplayCountdown').countdown( 'option', 'onExpiry', nullEnd);
     $('#gameplayCountdown').countdown( 'option', 'until', remaining);
-
-
   });
 
+  //Initializes timer
   $(function initializeClock() {
     $('#gameplayCountdown').countdown({until: <%= @time_left%> , onExpiry: endGame, format: 'MS'});
 
   });
 
+  //Redirects to loser page
   function endGame() {
     $(window.location.replace("/main/finished?win=false" ))
-    //alert('Out of time!');
+
   }
 
+  //Used so that multiple calls to final page are not made
   function nullEnd() {
-    //$(window.location.replace("/gameplay/wikigame"))
-    //alert('Out of time!');
+    //This is empty
   }
 
- // window.onbeforeunload = function() { return "Your work will be lost."; };
 
 </script>
 
