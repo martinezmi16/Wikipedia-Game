@@ -74,6 +74,9 @@ class GameplayController < ApplicationController
     #Gets list of all hyperlinks
     current_db_links = Topic.select(:hyperlink)
 
+    topic_list_index = (0..200).to_a.shuffle.take(10)
+    puts topic_list_index
+
     #Updates db with paths if not the first run
     if params[:first] == "false" then
       current_paths = Path.select(:path)
@@ -150,12 +153,14 @@ class GameplayController < ApplicationController
               #Adds to list of links allowed on the page
               valid_links.push(local_url)
 
+              new_count += 1
+
               #Checks to see if topic exists in database
-              next if current_db_links.include?(db_url) or new_count > 10
+              next if current_db_links.include?(db_url) or topic_list_index.include?(new_count-1) == false
 
               #Adds topic if not already in db
               Topic.create( :name => link.attr('title'), :hyperlink => db_url, :start_count => 0, :end_count => 0)
-              new_count += 1
+
 
 
            end
