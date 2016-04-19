@@ -22,6 +22,10 @@ class GameplayController < ApplicationController
     @start_time = Time.now.to_i
     @end_time = Time.now.to_i + 3 * 60
 
+    local_page =Nokogiri::HTML(open( "https://en.wikipedia.org/wiki/" + @topic2_url, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE} )) #Barack_Obama
+    paragraphs = local_page.xpath('//p')
+    @first_para = paragraphs.first.text
+
 
   end
 
