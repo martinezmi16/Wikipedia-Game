@@ -10,9 +10,10 @@ class ApplicationController < ActionController::Base
 
     #Randomizes topics selected
     Random.new_seed
-
     topic_entries = Topic.find_each.entries
     entry_count = topic_entries.length
+
+    #Seeds initial random numbers
     random_topic1_index = rand(entry_count)
     least_topic1_index = 0
     random_topic2_index = rand(entry_count)
@@ -24,6 +25,7 @@ class ApplicationController < ActionController::Base
     least_start_count = 0
     least_end_count = 0
 
+    #Selects least used entry
     index1 = 0
     topic_entries.each do |entry|
       if entry.start_count <= least_start_count then
@@ -34,6 +36,7 @@ class ApplicationController < ActionController::Base
       index1 += 1
     end
 
+    #Selects least used entry
     index2 = 0
     topic_entries.each do |entry|
       if entry.end_count <= least_end_count and entry != least_start then
@@ -50,11 +53,14 @@ class ApplicationController < ActionController::Base
 
     topic1_index = 0
 
+    #Adds random element to start end so that about 1/4 of the time
+    #random start is used
     if random_topic1_index % 2 == 0 && least_topic1_index %2 == 0 then
       final_topic1 = topic_entries[random_topic1_index]
       topic1_index = random_topic1_index
     end
 
+    #Same with random end
     if random_topic2_index % 2 == 0 && least_topic2_index %2 == 0 then
       while topic1_index == random_topic2_index do
         random_topic2_index = rand(entry_count)

@@ -33,7 +33,7 @@ class GameplayController < ApplicationController
   #Main gameplay controller
   def wikigame
 
-
+    #Gets variables for collecting new topics
     global_db_counter = TopicPair.find_by_pair("global")
     current_plays = global_db_counter.count
     current_refresh = global_db_counter.refresh
@@ -123,10 +123,13 @@ class GameplayController < ApplicationController
       end
 
     else
+
+      #If it is the first run, increment appropriate counters
       Topic.increment_counter(:start_count, @start_obj.id)
       Topic.increment_counter(:end_count, @end_obj.id)
       TopicPair.increment_counter(:count, 1)
 
+      #Checks to see if new topics need to be found
       if current_plays == 5 ** current_refresh then
         refresh = true
 
@@ -178,6 +181,7 @@ class GameplayController < ApplicationController
               #Checks to see if topic exists in database
               next if current_db_links.include?(db_url) or topic_list_index.include?(new_count-1) == false
 
+              #If indicated, get new topics
               if refresh == true then
                 #Adds topic if not already in db
                 Topic.create( :name => link.attr('title'), :hyperlink => db_url, :start_count => 0, :end_count => 0)
