@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20160403220002) do
   create_table "topic_pairs", force: :cascade do |t|
     t.string   "pair"
     t.integer  "count"
+    t.integer  "refresh"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

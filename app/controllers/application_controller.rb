@@ -13,22 +13,57 @@ class ApplicationController < ActionController::Base
 
     topic_entries = Topic.find_each.entries
     entry_count = topic_entries.length
-    topic1_index = rand(entry_count)
-    topic2_index = rand(entry_count)
+    random_topic1_index = rand(entry_count)
+    least_topic1_index = 0
+    random_topic2_index = rand(entry_count)
+    least_topic2_index = 0
 
+    #Assumes at least two topics in db at all times
+    least_start = topic_entries[0]
+    least_end = topic_entries[1]
+    least_start_count = 0
+    least_end_count = 0
 
-    # Ensures the topics are not the same
-    while( topic1_index == topic2_index )
-      topic2_index = rand( entry_count )
+    index1 = 0
+    topic_entries.each do |entry|
+      if entry.start_count <= least_start_count then
+        least_start = entry
+        least_start_count = entry.start_count
+        least_topic1_index = index1
+      end
+      index1 += 1
+    end
+
+    index2 = 0
+    topic_entries.each do |entry|
+      if entry.end_count <= least_end_count and entry != least_start then
+        least_end = entry
+        least_end_count = entry.end_count
+        least_topic2_index = index2
+      end
+      index2 += 1
     end
 
 
-    #Gets topics from list of topics
-    topic1 = topic_entries[topic1_index]
-    topic2 = topic_entries[topic2_index]
+    final_topic1 = least_start
+    final_topic2 = least_end
+
+    topic1_index = 0
+
+    if random_topic1_index % 2 == 0 && least_topic1_index %2 == 0 then
+      final_topic1 = topic_entries[random_topic1_index]
+      topic1_index = random_topic1_index
+    end
+
+    if random_topic2_index % 2 == 0 && least_topic2_index %2 == 0 then
+      while topic1_index == random_topic2_index do
+        random_topic2_index = rand(entry_count)
+        final_topic2 = topic_entries[random_topic2_index]
+      end
+    end
 
     #Creates list for output
-    topic_list = [ topic1, topic2]
+    topic_list = [ final_topic1, final_topic2]
 
     return topic_list
 

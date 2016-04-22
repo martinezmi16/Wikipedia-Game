@@ -6,5 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Topic.create(name:"Barack Obama", hyperlink:"Barack_Obama", start_count:1, end_count:0)
-Topic.create(name:"Peanut", hyperlink:"Peanut", start_count:0, end_count:1)
+Topic.create(name:"Barack Obama", hyperlink:"Barack_Obama", start_count:0, end_count:0)
+Topic.create(name:"Peanut", hyperlink:"Peanut", start_count:0, end_count:0)
+TopicPair.create(pair:"global", count:0, refresh:1)

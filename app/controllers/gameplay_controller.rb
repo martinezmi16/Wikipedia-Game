@@ -34,6 +34,11 @@ class GameplayController < ApplicationController
   def wikigame
 
 
+    global_db_counter = TopicPair.find_by_pair("global")
+    current_plays = global_db_counter.count
+    current_refresh = global_db_counter.refresh
+    refresh = false
+
     #Gets the new start time for the timeer
     new_start = Time.now.to_i
 
@@ -117,6 +122,17 @@ class GameplayController < ApplicationController
 
       end
 
+    else
+      Topic.increment_counter(:start_count, @start_obj.id)
+      Topic.increment_counter(:end_count, @end_obj.id)
+      TopicPair.increment_counter(:count, 1)
+
+      if current_plays == 5 ** current_refresh then
+        refresh = true
+
+        TopicPair.increment_counter(:refresh, 1)
+      end
+
     end
 
 
@@ -162,8 +178,12 @@ class GameplayController < ApplicationController
               #Checks to see if topic exists in database
               next if current_db_links.include?(db_url) or topic_list_index.include?(new_count-1) == false
 
-              #Adds topic if not already in db
-              Topic.create( :name => link.attr('title'), :hyperlink => db_url, :start_count => 0, :end_count => 0)
+              if refresh == true then
+                #Adds topic if not already in db
+                Topic.create( :name => link.attr('title'), :hyperlink => db_url, :start_count => 0, :end_count => 0)
+
+
+              end
 
 
 
