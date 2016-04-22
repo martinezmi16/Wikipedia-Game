@@ -8,22 +8,22 @@
 <script>
   //Initializes clock with ten second countdown timer
   $(function initializeClock () {
-    $('#initialCountdown').countdown({until: '+10s', onExpiry: startGame, format: 'S'});
+
+    var target_url =  "wikigame?topic1=" + "<%= @topic1_url %>" + "&topic2=" + "<%= @topic2_url %>"
+        + "&first=true&start=" + <%= @start_time %> + "&end=" + <%= @end_time.to_s %>
+        + "&current_path=" + "<%= @topic1_url %>";
+
+    $('#initialCountdown').countdown({until: '+10s', expiryUrl: target_url, format: 'S'});
 
   });
 
-  //Starts the game when countdown has finished
-  function startGame() {
-    $(window.location.replace("/gameplay/wikigame?topic1=" + "<%= @topic1_url %>" + "&topic2=" + "<%= @topic2_url %>"
-                                + "&first=true&start=" + <%= @start_time %> + "&end=" + <%= @end_time.to_s %>
-                                + "&current_path=" + "<%= @topic1_url %>" ));
-  }
+
+
 </script>
 
 
 
 <p id="initialCountdown"></p>
-
 <p align="center"><%= link_to image_tag("go-now.JPG"),
                               :controller => "gameplay", :action => "wikigame", :topic1 => @topic1_url,
                               :topic2 => @topic2_url, :first => "true", :start => @start_time, :end => @end_time.to_s,
